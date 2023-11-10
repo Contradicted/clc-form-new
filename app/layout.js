@@ -1,10 +1,8 @@
 import { Inter } from 'next/font/google'
 import './globals.css'
 
-// import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import AuthProvider from '@/components/AuthProvider'
 import { createServerSupabaseClient } from '@/lib/supabaseServer'
-// import { cookies } from 'next/headers'
 
 const inter = Inter({ subsets: ['latin'] })
 

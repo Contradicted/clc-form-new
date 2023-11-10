@@ -1,12 +1,12 @@
 import Link from "next/link"
 import { redirect } from "next/navigation"
-// import { cookies } from "next/headers"
+import Image from "next/image"
 
 import { cn } from "@/lib/utils"
-import { buttonVariants } from "@/components/ui/button"
-import { RegisterAuthForm } from "./_components/registerAuthForm"
 import { createServerSupabaseClient } from "@/lib/supabaseServer"
-// import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
+import { buttonVariants } from "@/components/ui/button"
+
+import { RegisterAuthForm } from "./_components/registerAuthForm"
 
 const RegisterPage = async () => {
 
@@ -29,9 +29,15 @@ const RegisterPage = async () => {
                 >
                     Login
                 </Link>
-                <div className="relative hidden h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex">
-                    <div className="absolute inset-0 bg-teal-300" />
-
+                <div className="relative hidden h-screen justify-center items-center flex-col bg-muted p-10 text-white dark:border-r lg:flex">
+                    <div className="absolute inset-0 bg-slate-50" />
+                    <Image
+                        src="/logo.png"
+                        alt="company-logo"
+                        width={600}
+                        height={600}
+                        className="z-50"
+                    />
                 </div>
                 <div className="lg:p-8">
                     <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
@@ -47,14 +53,14 @@ const RegisterPage = async () => {
                         <p className="px-8 text-center text-sm text-muted-foreground">
                             By clicking continue, you agree to our{" "}
                             <Link
-                                href="/terms"
+                                href="#"
                                 className="underline underline-offset-4 hover:text-primary"
                             >
                                 Terms of Service
                             </Link>{" "}
                             and{" "}
                             <Link
-                                href="/privacy"
+                                href="#"
                                 className="underline underline-offset-4 hover:text-primary"
                             >
                                 Privacy Policy

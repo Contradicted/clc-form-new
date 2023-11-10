@@ -3,14 +3,14 @@
 import { useState } from "react"
 import { Loader2 } from "lucide-react"
 import { Toaster, toast } from "sonner"
+import { useRouter } from "next/navigation"
 
 import { cn } from "@/lib/utils"
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
-import { useRouter } from "next/navigation"
 
 
 export function UpdatePasswordAuthForm({ className, ...props }) {
@@ -30,7 +30,7 @@ export function UpdatePasswordAuthForm({ className, ...props }) {
             event.preventDefault();
             setIsLoading(true)
 
-            const { data, error } = await supabase.auth.updateUser({
+            const { error } = await supabase.auth.updateUser({
                 password: password,
                 data: { isResettingPassword: false }
             })
@@ -56,35 +56,35 @@ export function UpdatePasswordAuthForm({ className, ...props }) {
     }
 
     return (
-        <>
-            <div className={cn("grid gap-6", className)} {...props}>
-                <form onSubmit={onSubmit}>
-                    <div className="grid gap-3">
-                        <div className="grid gap-1">
-                            <Label className="sr-only" htmlFor="password">
-                                Password
-                            </Label>
-                            <Input
-                                id="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                placeholder="hello123"
-                                type="password"
-                                autoCapitalize="none"
-                                autoCorrect="off"
-                                disabled={isLoading}
-                            />
-                        </div>
-                        <Button disabled={isLoading}>
-                            {isLoading && (
-                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            )}
-                            Update Password
-                        </Button>
+        <div className={cn("grid gap-6", className)} {...props}>
+            <form onSubmit={onSubmit}>
+                <div className="grid gap-3">
+                    <div className="grid gap-1">
+                        <Label className="sr-only" htmlFor="password">
+                            Password
+                        </Label>
+                        <Input
+                            id="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            placeholder="hello123"
+                            type="password"
+                            autoCapitalize="none"
+                            autoCorrect="off"
+                            disabled={isLoading}
+                        />
                     </div>
-                </form>
+                    <Button disabled={isLoading}>
+                        {isLoading && (
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        )}
+                        Update Password
+                    </Button>
+                </div>
+            </form>
+            <div className="absolute">
+                <Toaster richColors />
             </div>
-            <Toaster richColors />
-        </>
+        </div>
     )
 }

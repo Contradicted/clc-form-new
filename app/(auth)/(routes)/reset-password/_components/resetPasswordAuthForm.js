@@ -2,15 +2,15 @@
 
 import { useState } from "react"
 import { Loader2 } from "lucide-react"
+import { Toaster, toast } from "sonner"
+import Link from "next/link"
 
 import { cn } from "@/lib/utils"
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
-import { Toaster, toast } from "sonner"
-import Link from "next/link"
 
 export function ResetPasswordAuthForm({ className, ...props }) {
 
@@ -27,7 +27,7 @@ export function ResetPasswordAuthForm({ className, ...props }) {
             event.preventDefault();
             setIsLoading(true)
 
-            const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+            const { error } = await supabase.auth.resetPasswordForEmail(email, {
                 redirectTo: `${location.origin}/api/auth/callback`,
             })
 
@@ -48,45 +48,45 @@ export function ResetPasswordAuthForm({ className, ...props }) {
     }
 
     return (
-        <>
-            <div className={cn("grid gap-6", className)} {...props}>
-                <form onSubmit={onSubmit}>
-                    <div className="grid gap-3">
-                        <div className="grid gap-1">
-                            <Label className="sr-only" htmlFor="email">
-                                Email
-                            </Label>
-                            <Input
-                                id="email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                placeholder="name@example.com"
-                                type="email"
-                                autoCapitalize="none"
-                                autoComplete="email"
-                                autoCorrect="off"
-                                disabled={isLoading}
-                            />
-                        </div>
-                        <Button disabled={isLoading}>
-                            {isLoading && (
-                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            )}
-                            Send instructions
-                        </Button>
+        <div className={cn("grid gap-6", className)} {...props}>
+            <form onSubmit={onSubmit}>
+                <div className="grid gap-3">
+                    <div className="grid gap-1">
+                        <Label className="sr-only" htmlFor="email">
+                            Email
+                        </Label>
+                        <Input
+                            id="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            placeholder="name@example.com"
+                            type="email"
+                            autoCapitalize="none"
+                            autoComplete="email"
+                            autoCorrect="off"
+                            disabled={isLoading}
+                        />
                     </div>
-                </form>
-                <p className="px-8 text-center text-sm text-muted-foreground">
-                    Remember your password? {" "}
-                    <Link
-                        href="/signin"
-                        className="underline underline-offset-4 hover:text-primary"
-                    >
-                        Sign In
-                    </Link>
-                </p>
+                    <Button disabled={isLoading}>
+                        {isLoading && (
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        )}
+                        Send instructions
+                    </Button>
+                </div>
+            </form>
+            <p className="px-8 text-center text-sm text-muted-foreground">
+                Remember your password? {" "}
+                <Link
+                    href="/signin"
+                    className="underline underline-offset-4 hover:text-primary"
+                >
+                    Sign In
+                </Link>
+            </p>
+            <div className="absolute">
+                <Toaster richColors />
             </div>
-            <Toaster richColors />
-        </>
+        </div>
     )
 }

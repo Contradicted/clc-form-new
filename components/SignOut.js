@@ -1,7 +1,8 @@
 "use client"
 
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { Button } from "./ui/button";
+
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 
 export const SignOut = async () => {
     const supabase = createClientComponentClient();

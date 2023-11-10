@@ -1,12 +1,11 @@
 import Link from "next/link"
 import { redirect } from "next/navigation"
-// import { cookies } from "next/headers"
+import Image from "next/image"
 
 import { cn } from "@/lib/utils"
-import { buttonVariants } from "@/components/ui/button"
-// import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
-import { ResetPasswordAuthForm } from "./_components/resetPasswordAuthForm"
 import { createServerSupabaseClient } from "@/lib/supabaseServer"
+import { buttonVariants } from "@/components/ui/button"
+import { ResetPasswordAuthForm } from "./_components/resetPasswordAuthForm"
 
 const ResetPasswordPage = async () => {
 
@@ -29,10 +28,17 @@ const ResetPasswordPage = async () => {
                 >
                     Register
                 </Link>
-                <div className="relative hidden h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex">
-                    <div className="absolute inset-0 bg-teal-300" />
-
+                <div className="relative hidden h-screen justify-center items-center flex-col bg-muted p-10 text-white dark:border-r lg:flex">
+                    <div className="absolute inset-0 bg-slate-50" />
+                    <Image
+                        src="/logo.png"
+                        alt="company-logo"
+                        width={600}
+                        height={600}
+                        className="z-50"
+                    />
                 </div>
+
                 <div className="lg:p-8">
                     <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
                         <div className="flex flex-col space-y-2 text-center">

@@ -1,17 +1,17 @@
 "use client"
 
 import { useState } from "react"
-import { Github, Loader2 } from "lucide-react"
+import { Loader2 } from "lucide-react"
 import { Toaster, toast } from "sonner"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 import { cn } from "@/lib/utils"
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
-import { useRouter } from "next/navigation"
 
 export function LoginAuthForm({ className, ...props }) {
 
@@ -60,78 +60,60 @@ export function LoginAuthForm({ className, ...props }) {
     }
 
     return (
-        <>
-            <div className={cn("grid gap-6", className)} {...props}>
-                <form onSubmit={onSubmit}>
-                    <p className="text-xs text-muted-foreground text-right pb-2">
-                        <Link
-                            href="/reset-password"
-                            className="hover:text-primary"
-                        >
-                            Forgot password?
+        <div className={cn("grid gap-6", className)} {...props}>
+            <form onSubmit={onSubmit}>
+                <p className="text-xs text-muted-foreground text-right pb-2">
+                    <Link
+                        href="/reset-password"
+                        className="hover:text-primary"
+                    >
+                        Forgot password?
 
-                        </Link>
-                    </p>
-                    <div className="grid gap-3">
-                        <div className="grid gap-1">
-                            <Label className="sr-only" htmlFor="email">
-                                Email
-                            </Label>
-                            <Input
-                                id="email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                placeholder="name@example.com"
-                                type="email"
-                                autoCapitalize="none"
-                                autoComplete="email"
-                                autoCorrect="off"
-                                disabled={isLoading}
-                            />
-                        </div>
-                        <div className="grid gap-1">
-                            <Label className="sr-only" htmlFor="password">
-                                Password
-                            </Label>
-                            <Input
-                                id="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                placeholder="hello123"
-                                type="password"
-                                autoCapitalize="none"
-                                autoCorrect="off"
-                                disabled={isLoading}
-                            />
-                        </div>
-                        <Button disabled={isLoading}>
-                            {isLoading && (
-                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            )}
-                            Sign In
-                        </Button>
+                    </Link>
+                </p>
+                <div className="grid gap-3">
+                    <div className="grid gap-1">
+                        <Label className="sr-only" htmlFor="email">
+                            Email
+                        </Label>
+                        <Input
+                            id="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            placeholder="name@example.com"
+                            type="email"
+                            autoCapitalize="none"
+                            autoComplete="email"
+                            autoCorrect="off"
+                            disabled={isLoading}
+                        />
                     </div>
-                </form>
-                <div className="relative">
-                    <div className="absolute inset-0 flex items-center">
-                        <span className="w-full border-t" />
+                    <div className="grid gap-1">
+                        <Label className="sr-only" htmlFor="password">
+                            Password
+                        </Label>
+                        <Input
+                            id="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            placeholder="hello123"
+                            type="password"
+                            autoCapitalize="none"
+                            autoCorrect="off"
+                            disabled={isLoading}
+                        />
                     </div>
-                    <div className="relative flex justify-center text-xs uppercase">
-                        <span className="bg-background px-2 text-muted-foreground">
-                            Or continue with
-                        </span>
-                    </div>
+                    <Button disabled={isLoading}>
+                        {isLoading && (
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        )}
+                        Sign In
+                    </Button>
                 </div>
-                <Button variant="outline" type="button" disabled={isLoading}>
-                    {isLoading ? (
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    ) : (
-                        <Github className="mr-2 h-4 w-4" />
-                    )}{" "}
-                    Github
-                </Button>
+            </form>
+            <div className="absolute">
+                <Toaster richColors />
             </div>
-            <Toaster richColors />
-        </>
+        </div>
     )
 }

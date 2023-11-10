@@ -1,13 +1,13 @@
 import Link from "next/link"
-import { redirect } from "next/navigation"
-import { LoginAuthForm } from "./_components/loginAuthForm"
-
-import { cookies } from "next/headers"
-import { cn } from "@/lib/utils"
-import { buttonVariants } from "@/components/ui/button"
-import { createServerSupabaseClient } from "@/lib/supabaseServer"
 import Image from "next/image"
-// import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
+import { redirect } from "next/navigation"
+
+
+import { cn } from "@/lib/utils"
+import { createServerSupabaseClient } from "@/lib/supabaseServer"
+import { buttonVariants } from "@/components/ui/button"
+
+import { LoginAuthForm } from "./_components/loginAuthForm"
 
 const LoginPage = async () => {
 
@@ -32,7 +32,7 @@ const LoginPage = async () => {
                 >
                     Register
                 </Link>
-                <div className="relative hidden h-full justify-center items-center flex-col bg-muted p-10 text-white dark:border-r lg:flex">
+                <div className="relative hidden h-screen justify-center items-center flex-col bg-muted p-10 text-white dark:border-r lg:flex">
                     <div className="absolute inset-0 bg-slate-50" />
                     <Image
                         src="/logo.png"

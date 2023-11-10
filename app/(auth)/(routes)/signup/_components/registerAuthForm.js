@@ -1,15 +1,16 @@
 "use client"
 
 import { useState } from "react"
-import { Github, Loader2 } from "lucide-react"
+import { Loader2 } from "lucide-react"
+import { useRouter } from "next/navigation"
+import { Toaster, toast } from "sonner"
 
 import { cn } from "@/lib/utils"
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
-import { useRouter } from "next/navigation"
 
 export function RegisterAuthForm({ className, ...props }) {
 
@@ -29,7 +30,7 @@ export function RegisterAuthForm({ className, ...props }) {
             event.preventDefault();
             setIsLoading(true)
 
-            await supabase.auth.signUp({
+            const { error } = await supabase.auth.signUp({
                 email: email,
                 password: password
             })
@@ -37,6 +38,11 @@ export function RegisterAuthForm({ className, ...props }) {
             await supabase.auth.signUp({
                 data: { justRegistered: true }
             })
+
+            if (error) {
+                toast.error(`${error.message}`)
+                return;
+            }
 
             // Reset Form
             setEmail("")
@@ -46,6 +52,7 @@ export function RegisterAuthForm({ className, ...props }) {
 
             router.push('/signin')
         } catch (error) {
+            toast.error("Something went wrong", error)
             console.log("[SIGN_UP_ERROR]", error)
         } finally {
             setIsLoading(false)
@@ -95,24 +102,10 @@ export function RegisterAuthForm({ className, ...props }) {
                     </Button>
                 </div>
             </form>
-            <div className="relative">
-                <div className="absolute inset-0 flex items-center">
-                    <span className="w-full border-t" />
-                </div>
-                <div className="relative flex justify-center text-xs uppercase">
-                    <span className="bg-background px-2 text-muted-foreground">
-                        Or continue with
-                    </span>
-                </div>
+
+            <div className="absolute">
+                <Toaster richColors />
             </div>
-            <Button variant="outline" type="button" disabled={isLoading}>
-                {isLoading ? (
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                ) : (
-                    <Github className="mr-2 h-4 w-4" />
-                )}{" "}
-                Github
-            </Button>
         </div>
     )
 }
