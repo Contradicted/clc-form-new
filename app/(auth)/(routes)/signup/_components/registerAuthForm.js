@@ -9,12 +9,15 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
+import { useRouter } from "next/navigation"
 
 export function RegisterAuthForm({ className, ...props }) {
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [isLoading, setIsLoading] = useState(false)
+
+    const router = useRouter();
 
     const supabase = createClientComponentClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL,
@@ -31,11 +34,17 @@ export function RegisterAuthForm({ className, ...props }) {
                 password: password
             })
 
+            await supabase.auth.signUp({
+                data: { justRegistered: true }
+            })
+
             // Reset Form
             setEmail("")
             setPassword("")
 
             console.log("User successfully registered!")
+
+            router.push('/signin')
         } catch (error) {
             console.log("[SIGN_UP_ERROR]", error)
         } finally {

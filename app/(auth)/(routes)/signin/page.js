@@ -1,10 +1,25 @@
 import Link from "next/link"
-
-import { cn } from "@/lib/utils"
-import { buttonVariants } from "@/components/ui/button"
+import { redirect } from "next/navigation"
 import { LoginAuthForm } from "./_components/loginAuthForm"
 
-const LoginPage = () => {
+import { cookies } from "next/headers"
+import { cn } from "@/lib/utils"
+import { buttonVariants } from "@/components/ui/button"
+import { createServerSupabaseClient } from "@/lib/supabaseServer"
+import Image from "next/image"
+// import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
+
+const LoginPage = async () => {
+
+    const supabase = createServerSupabaseClient();
+    const { data } = await supabase.auth.getSession();
+
+    if (data?.session) {
+        if (!data?.session.user.user_metadata.justRegistered) {
+            redirect('/')
+        }
+    }
+
     return (
         <>
             <div className="container flex relative h-[800px] flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
@@ -17,9 +32,15 @@ const LoginPage = () => {
                 >
                     Register
                 </Link>
-                <div className="relative hidden h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex">
-                    <div className="absolute inset-0 bg-teal-300" />
-
+                <div className="relative hidden h-full justify-center items-center flex-col bg-muted p-10 text-white dark:border-r lg:flex">
+                    <div className="absolute inset-0 bg-slate-50" />
+                    <Image
+                        src="/logo.png"
+                        alt="company-logo"
+                        width={600}
+                        height={600}
+                        className="z-50"
+                    />
                 </div>
                 <div className="lg:p-8">
                     <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
